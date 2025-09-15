@@ -1,5 +1,6 @@
 // Array para armazenar as transações
 let transactions = [];
+let isSortedByDate = false;
 
 // Seleciona elementos do DOM
 const toggleButton = document.getElementById("toggle-theme");
@@ -7,17 +8,38 @@ const body = document.body;
 const form = document.getElementById("transaction-form");
 const transactionList = document.getElementById("transaction-list");
 const saldoTotal = document.getElementById("saldo-total");
+const filterType = document.getElementById("filter-type");
+const filterCategory = document.getElementById("filter-category");
+const sortBtn = document.getElementById("sort-btn");
 
 // Carrega dados salvos ao iniciar
 document.addEventListener("DOMContentLoaded", () => {
   loadTransactions();
   updateSaldo();
+  displayTransactions();
+
+  // Adiciona event listeners para filtros
+  filterType.addEventListener("change", displayTransactions);
+  filterCategory.addEventListener("change", displayTransactions);
+
+  // Adiciona event listener para ordenação
+  sortBtn.addEventListener("click", toggleSort);
 });
 
 // Toggle modo claro/escuro
 toggleButton.addEventListener("click", () => {
   body.classList.toggle("dark");
   toggleButton.textContent = body.classList.contains("dark") ? "☀️" : "🌙";
+  // Salva preferência do usuário
+  localStorage.setItem("darkMode", body.classList.contains("dark"));
+});
+
+// Verifica preferência salva ao carregar
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("darkMode") === "true") {
+    body.classList.add("dark");
+    toggleButton.textContent = "☀️";
+  }
 });
 
 // Adiciona nova transação
@@ -26,16 +48,18 @@ form.addEventListener("submit", (e) => {
 
   const type = document.getElementById("type").value;
   const description = document.getElementById("description").value;
+  const category = document.getElementById("category").value;
   const amount = parseFloat(document.getElementById("amount").value);
 
-  if (type && description && amount > 0) {
+  if (type && description && category && amount > 0) {
     // Cria objeto da transação
     const transaction = {
-      id: Date.now(), // ID único baseado no timestamp
+      id: Date.now(),
       type: type,
       description: description,
+      category: category,
       amount: amount,
-      date: new Date().toLocaleDateString("pt-BR"),
+      date: new Date().toISOString(), // ISO format para ordenação
     };
 
     // Adiciona ao array
@@ -45,7 +69,7 @@ form.addEventListener("submit", (e) => {
     saveTransactions();
 
     // Atualiza interface
-    addTransactionToDOM(transaction);
+    displayTransactions();
     updateSaldo();
 
     // Limpa formulário
@@ -63,25 +87,67 @@ function loadTransactions() {
   const stored = localStorage.getItem("transactions");
   if (stored) {
     transactions = JSON.parse(stored);
-    transactions.forEach((transaction) => {
-      addTransactionToDOM(transaction);
-    });
   }
+}
+
+// Função para exibir transações com filtros
+function displayTransactions() {
+  const typeFilter = filterType.value;
+  const categoryFilter = filterCategory.value;
+
+  // Filtra transações
+  let filteredTransactions = transactions.filter((transaction) => {
+    const typeMatch = typeFilter === "todas" || transaction.type === typeFilter;
+    const categoryMatch =
+      categoryFilter === "todas" || transaction.category === categoryFilter;
+    return typeMatch && categoryMatch;
+  });
+
+  // Ordena se necessário
+  if (isSortedByDate) {
+    filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+  }
+
+  // Limpa lista
+  transactionList.innerHTML = "";
+
+  // Adiciona transações filtradas
+  filteredTransactions.forEach((transaction) => {
+    addTransactionToDOM(transaction);
+  });
 }
 
 // Função para adicionar transação ao DOM
 function addTransactionToDOM(transaction) {
   const li = document.createElement("li");
-  li.className = transaction.type; // 'receita' ou 'despesa'
+  li.className = transaction.type;
+
+  // Formata data para exibição
+  const displayDate = new Date(transaction.date).toLocaleDateString("pt-BR");
+
+  // Mapeia categorias para nomes amigáveis
+  const categoryNames = {
+    salario: "Salário",
+    alimentacao: "Alimentação",
+    transporte: "Transporte",
+    lazer: "Lazer",
+    outros: "Outros",
+  };
+
   li.innerHTML = `
-    <div>
-      <div><strong>${transaction.description}</strong></div>
-      <div><small>${transaction.date}</small></div>
+    <div class="transaction-info">
+      <strong>${transaction.description}</strong>
+      <div class="transaction-meta">
+        <div>${displayDate}</div>
+        <span class="category-tag">${
+          categoryNames[transaction.category] || transaction.category
+        }</span>
+      </div>
     </div>
-    <div>
+    <div class="transaction-amount">
       <span class="valor">${
         transaction.type === "receita" ? "+" : "-"
-      }R$ ${transaction.amount.toFixed(2)}</span>
+      }R$ ${transaction.amount.toFixed(2).replace(".", ",")}</span>
       <button class="delete-btn" onclick="deleteTransaction(${
         transaction.id
       })">🗑️</button>
@@ -99,16 +165,8 @@ function deleteTransaction(id) {
   saveTransactions();
 
   // Atualiza interface
-  updateDOM();
+  displayTransactions();
   updateSaldo();
-}
-
-// Função para atualizar o DOM (recria toda a lista)
-function updateDOM() {
-  transactionList.innerHTML = "";
-  transactions.forEach((transaction) => {
-    addTransactionToDOM(transaction);
-  });
 }
 
 // Função para calcular e atualizar saldo
@@ -127,10 +185,31 @@ function updateSaldo() {
 
   // Adiciona cor dependendo do saldo
   if (total > 0) {
-    saldoTotal.style.color = "#28a745"; // verde
+    saldoTotal.style.color = "#28a745";
   } else if (total < 0) {
-    saldoTotal.style.color = "#dc3545"; // vermelho
+    saldoTotal.style.color = "#dc3545";
   } else {
-    saldoTotal.style.color = "#007bff"; // azul
+    saldoTotal.style.color = "#ffffff";
   }
+}
+
+// Função para alternar ordenação
+function toggleSort() {
+  isSortedByDate = !isSortedByDate;
+  sortBtn.textContent = isSortedByDate
+    ? "📅 Ordenado por data"
+    : "📅 Ordenar por data";
+  displayTransactions();
+}
+
+// Função para obter nome da categoria
+function getCategoryName(categoryKey) {
+  const categories = {
+    salario: "Salário",
+    alimentacao: "Alimentação",
+    transporte: "Transporte",
+    lazer: "Lazer",
+    outros: "Outros",
+  };
+  return categories[categoryKey] || categoryKey;
 }

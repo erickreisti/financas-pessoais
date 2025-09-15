@@ -19,11 +19,37 @@
         <div class="saldo" id="saldo-total">R$ 0,00</div>
       </section>
 
+      <!-- Filtros -->
+      <section class="filters">
+        <select id="filter-type">
+          <option value="todas">Todas</option>
+          <option value="receita">🟢 Receitas</option>
+          <option value="despesa">🔴 Despesas</option>
+        </select>
+        <select id="filter-category">
+          <option value="todas">Todas as categorias</option>
+          <option value="salario">Salário</option>
+          <option value="alimentacao">Alimentação</option>
+          <option value="transporte">Transporte</option>
+          <option value="lazer">Lazer</option>
+          <option value="outros">Outros</option>
+        </select>
+      </section>
+
       <!-- Seção de Transações -->
       <section>
-        <h2>Transações</h2>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h2>Transações</h2>
+          <button id="sort-btn">📅 Ordenar por data</button>
+        </div>
         <ul id="transaction-list">
-          <!-- Transações serão adicionadas aqui pelo JavaScript -->
+          <!-- Transações serão adicionadas aqui -->
         </ul>
       </section>
 
@@ -42,6 +68,14 @@
             placeholder="Descrição"
             required
           />
+          <select id="category" required>
+            <option value="">Selecione a categoria</option>
+            <option value="salario">Salário</option>
+            <option value="alimentacao">Alimentação</option>
+            <option value="transporte">Transporte</option>
+            <option value="lazer">Lazer</option>
+            <option value="outros">Outros</option>
+          </select>
           <input
             type="number"
             id="amount"
