@@ -1,84 +1,135 @@
-/* Reset básico de margens e padding */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Inclui borda e padding no cálculo de largura/altura */
+  box-sizing: border-box;
 }
 
-/* Estilos do corpo da página */
+/* Estilos do corpo */
 body {
-  font-family: Arial, sans-serif; /* Fonte padrão */
-  padding: 20px; /* Espaçamento interno */
-  background-color: #f4f4f4; /* Cor de fundo clara */
-  color: #333; /* Cor do texto */
-  transition: background-color 0.3s, color 0.3s; /* Transição suave de cores */
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Estilos para o modo escuro */
+/* Modo escuro */
 body.dark {
-  background-color: #1a1a1a; /* Fundo escuro */
-  color: #fff; /* Texto claro */
+  background-color: #1a1a1a;
+  color: #fff;
 }
 
-/* Estilo do cabeçalho */
+/* Cabeçalho */
 header {
-  display: flex; /* Layout flexível */
-  justify-content: space-between; /* Espaça os itens */
-  align-items: center; /* Alinha verticalmente */
-  margin-bottom: 30px; /* Espaço abaixo do cabeçalho */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
-/* Espaçamento inferior nos títulos */
 h1,
 h2 {
   margin-bottom: 10px;
 }
 
-/* Remove marcadores da lista */
+/* Seção de saldo */
+.saldo-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.saldo {
+  font-size: 2em;
+  font-weight: bold;
+  color: #007bff;
+}
+
+body.dark .saldo {
+  color: #4dabf7;
+}
+
+/* Lista de transações */
 ul {
   list-style: none;
   padding: 0;
 }
 
-/* Estilo dos itens da lista */
 li {
-  padding: 10px; /* Espaçamento interno */
-  background-color: #fff; /* Fundo branco */
-  margin-bottom: 5px; /* Espaço entre itens */
-  border-radius: 5px; /* Bordas arredondadas */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  padding: 15px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Itens da lista no modo escuro */
 body.dark li {
-  background-color: #333; /* Fundo cinza escuro */
+  background-color: #333;
 }
 
-/* Estilo do formulário */
+/* Cores para receitas e despesas */
+.receita {
+  border-left: 4px solid #28a745;
+}
+
+.despesa {
+  border-left: 4px solid #dc3545;
+}
+
+.valor {
+  font-weight: bold;
+}
+
+.receita .valor {
+  color: #28a745;
+}
+
+.despesa .valor {
+  color: #dc3545;
+}
+
+/* Formulário */
 form {
-  display: flex; /* Layout vertical */
+  display: flex;
   flex-direction: column;
-  gap: 10px; /* Espaço entre campos */
-  max-width: 300px; /* Largura máxima */
+  gap: 10px;
+  max-width: 350px;
 }
 
-/* Estilo dos campos de input e botão */
 input,
+select,
 button {
-  padding: 10px; /* Espaçamento interno */
-  font-size: 16px; /* Tamanho da fonte */
-  border: 1px solid #ccc; /* Borda cinza */
-  border-radius: 5px; /* Bordas arredondadas */
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-/* Estilo específico do botão */
 button {
-  cursor: pointer; /* Cursor de mão */
-  background-color: #007bff; /* Cor de fundo azul */
-  color: white; /* Texto branco */
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
 }
 
-/* Efeito hover no botão */
 button:hover {
-  background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+  background-color: #0056b3;
+}
+
+/* Botão de deletar */
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
 }

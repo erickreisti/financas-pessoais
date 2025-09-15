@@ -1,56 +1,59 @@
 <!DOCTYPE html>
-<!-- Declara que este é um documento HTML5 -->
 <html lang="pt-BR">
-  <!-- Define o idioma como português do Brasil -->
   <head>
     <meta charset="UTF-8" />
-    <!-- Codificação de caracteres UTF-8 (suporta acentos) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Torna a página responsiva -->
     <title>Minhas Finanças</title>
-    <!-- Título da aba do navegador -->
     <link rel="stylesheet" href="style.css" />
-    <!-- Conecta o CSS ao HTML -->
   </head>
   <body>
     <header>
       <h1>💰 Minhas Finanças</h1>
-      <!-- Título principal -->
       <button id="toggle-theme">🌙</button>
-      <!-- Botão para alternar tema claro/escuro -->
     </header>
 
     <main>
+      <!-- Seção de Saldo -->
+      <section class="saldo-section">
+        <h2>Saldo Total</h2>
+        <div class="saldo" id="saldo-total">R$ 0,00</div>
+      </section>
+
+      <!-- Seção de Transações -->
       <section>
-        <h2>Despesas Fixas</h2>
-        <ul id="expense-list">
-          <!-- Lista onde as despesas serão exibidas -->
-          <li>Aluguel: R$ 1200</li>
-          <li>Internet: R$ 100</li>
-          <li>Telefone: R$ 50</li>
+        <h2>Transações</h2>
+        <ul id="transaction-list">
+          <!-- Transações serão adicionadas aqui pelo JavaScript -->
         </ul>
       </section>
 
+      <!-- Formulário para nova transação -->
       <section>
-        <h2>Adicionar Nova Despesa</h2>
-        <form id="expense-form">
-          <!-- Formulário para adicionar nova despesa -->
+        <h2>Adicionar Nova Transação</h2>
+        <form id="transaction-form">
+          <select id="type" required>
+            <option value="">Selecione o tipo</option>
+            <option value="receita">🟢 Receita</option>
+            <option value="despesa">🔴 Despesa</option>
+          </select>
           <input
             type="text"
             id="description"
             placeholder="Descrição"
             required
           />
-          <!-- Campo de descrição -->
-          <input type="number" id="amount" placeholder="Valor (R$)" required />
-          <!-- Campo de valor -->
+          <input
+            type="number"
+            id="amount"
+            placeholder="Valor (R$)"
+            step="0.01"
+            required
+          />
           <button type="submit">➕ Adicionar</button>
-          <!-- Botão para enviar o formulário -->
         </form>
       </section>
     </main>
 
     <script src="script.js"></script>
-    <!-- Conecta o JavaScript ao final do body -->
   </body>
 </html>
