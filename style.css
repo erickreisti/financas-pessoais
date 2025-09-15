@@ -1,0 +1,84 @@
+/* Reset básico de margens e padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Inclui borda e padding no cálculo de largura/altura */
+}
+
+/* Estilos do corpo da página */
+body {
+  font-family: Arial, sans-serif; /* Fonte padrão */
+  padding: 20px; /* Espaçamento interno */
+  background-color: #f4f4f4; /* Cor de fundo clara */
+  color: #333; /* Cor do texto */
+  transition: background-color 0.3s, color 0.3s; /* Transição suave de cores */
+}
+
+/* Estilos para o modo escuro */
+body.dark {
+  background-color: #1a1a1a; /* Fundo escuro */
+  color: #fff; /* Texto claro */
+}
+
+/* Estilo do cabeçalho */
+header {
+  display: flex; /* Layout flexível */
+  justify-content: space-between; /* Espaça os itens */
+  align-items: center; /* Alinha verticalmente */
+  margin-bottom: 30px; /* Espaço abaixo do cabeçalho */
+}
+
+/* Espaçamento inferior nos títulos */
+h1,
+h2 {
+  margin-bottom: 10px;
+}
+
+/* Remove marcadores da lista */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Estilo dos itens da lista */
+li {
+  padding: 10px; /* Espaçamento interno */
+  background-color: #fff; /* Fundo branco */
+  margin-bottom: 5px; /* Espaço entre itens */
+  border-radius: 5px; /* Bordas arredondadas */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+/* Itens da lista no modo escuro */
+body.dark li {
+  background-color: #333; /* Fundo cinza escuro */
+}
+
+/* Estilo do formulário */
+form {
+  display: flex; /* Layout vertical */
+  flex-direction: column;
+  gap: 10px; /* Espaço entre campos */
+  max-width: 300px; /* Largura máxima */
+}
+
+/* Estilo dos campos de input e botão */
+input,
+button {
+  padding: 10px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  border: 1px solid #ccc; /* Borda cinza */
+  border-radius: 5px; /* Bordas arredondadas */
+}
+
+/* Estilo específico do botão */
+button {
+  cursor: pointer; /* Cursor de mão */
+  background-color: #007bff; /* Cor de fundo azul */
+  color: white; /* Texto branco */
+}
+
+/* Efeito hover no botão */
+button:hover {
+  background-color: #0056b3; /* Azul mais escuro ao passar o mouse */
+}
